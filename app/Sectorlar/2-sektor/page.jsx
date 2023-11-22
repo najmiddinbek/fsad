@@ -107,6 +107,12 @@ const Filter = () => {
     setShowOrganilgan(!showOrganilgan);
   };
 
+  const [filterStatus, setFilterStatus] = useState(null);
+
+  const handleFilterStatus = (status) => {
+    setFilterStatus(status);
+  };
+
   return (
     <div>
       <Navbar />
@@ -240,8 +246,20 @@ const Filter = () => {
                     {date} sanasida kiritilgan o`quvchilar:
                   </h3>
                   <div className="flex gap-2">
-                    <button className="">O`rganilgan</button>
-                    <button className="">O`rganilmagan</button>
+                    <button
+                      className={`${filterStatus === true ? "green" : "green"
+                        } text-white px-4 py-2 rounded-md cursor-pointer`}
+                      onClick={() => handleFilterStatus(true)}
+                    >
+                      O`rganilgan
+                    </button>
+                    <button
+                      className={`${filterStatus === false ? "bg-red-700" : "bg-red-700"
+                        } text-white px-4 py-2 rounded-md cursor-pointer`}
+                      onClick={() => handleFilterStatus(false)}
+                    >
+                      O`rganilmagan
+                    </button>
                   </div>
                 </div>
                 <table className="main_table w-full shadow-xl">
@@ -278,42 +296,46 @@ const Filter = () => {
                       <th className="admin_panel_th py-4 px-2 poppins-2"></th>
                     </tr>
                   </thead>
-                  {usersAddedByDate[date].map((t, index) => (
-                    <tbody key={t.id} className="text-center w-full">
-                      <tr className={`${getRowBackgroundColor(index)} w-full`}>
-                        <td className="px-2 py-4 admin_panel_td admin_panel-tih admin_panel_index ">
-                          {index + 1}
-                        </td>
-                        <td className="px-2 py-4 admin_panel_td">{t.newIsm}</td>
-                        <td className="px-2 py-4 admin_panel_td">
-                          {t.telephoneRaqami}
-                        </td>
-                        <td className="px-2 py-4 admin_panel_td">{t.school}</td>
-                        <td className="admin_panel_td">{t.newSinfi}</td>
-                        <td className="px-2 py-4 admin_panel_td">{t.MFY}</td>
-                        <td className="px-2 py-4 admin_panel_td">
-                          {t.manzili}
-                        </td>
-                        <td className="px-2 py-4 admin_panel_td">
-                          {new Date(t.createdAt).toLocaleString()}
-                        </td>
-                        <td className="px-2 py-4 admin_panel_td">
-                          {t.newDarsQoldirish}
-                        </td>
-                        <td className="">
-                          <RemoveBtn id={t._id} />
-                        </td>
-                        <td>
-                          <button onClick={() => changeStatus(t._id)} className={`py-2 ml-2 px-2 ${t.isChecked
-                            ? "text-white green rounded-md cursor-pointer"
-                            : "text-white bg-red-700 rounded-md cursor-pointer"
-                            }`}>
-                            {t.isChecked ? "O'rganilgan" : "O'rganilmagan"}
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  ))}
+                  {usersAddedByDate[date]
+                    .filter((t) =>
+                      filterStatus === null ? true : t.isChecked === filterStatus
+                    )
+                    .map((t, index) => (
+                      <tbody key={t.id} className="text-center w-full">
+                        <tr className={`${getRowBackgroundColor(index)} w-full`}>
+                          <td className="px-2 py-4 admin_panel_td admin_panel-tih admin_panel_index ">
+                            {index + 1}
+                          </td>
+                          <td className="px-2 py-4 admin_panel_td">{t.newIsm}</td>
+                          <td className="px-2 py-4 admin_panel_td">
+                            {t.telephoneRaqami}
+                          </td>
+                          <td className="px-2 py-4 admin_panel_td">{t.school}</td>
+                          <td className="admin_panel_td">{t.newSinfi}</td>
+                          <td className="px-2 py-4 admin_panel_td">{t.MFY}</td>
+                          <td className="px-2 py-4 admin_panel_td">
+                            {t.manzili}
+                          </td>
+                          <td className="px-2 py-4 admin_panel_td">
+                            {new Date(t.createdAt).toLocaleString()}
+                          </td>
+                          <td className="px-2 py-4 admin_panel_td">
+                            {t.newDarsQoldirish}
+                          </td>
+                          <td className="">
+                            <RemoveBtn id={t._id} />
+                          </td>
+                          <td>
+                            <button className={`py-2 ml-2 px-2 ${t.isChecked
+                              ? "text-white green rounded-md cursor-pointer"
+                              : "text-white bg-red-700 rounded-md cursor-pointer"
+                              }`}>
+                              {t.isChecked ? "O'rganilgan" : "O'rganilmagan"}
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    ))}
                 </table>
               </div>
             ))}
