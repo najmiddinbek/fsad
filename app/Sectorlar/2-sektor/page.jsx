@@ -73,8 +73,8 @@ const Filter = () => {
         t.newIsm.toLowerCase().includes(filterValue.newIsm.toLowerCase()) &&
         t.newSinfi.toLowerCase().includes(filterValue.newSinfi.toLowerCase()) &&
         t.school.toLowerCase().includes(filterValue.school.toLowerCase()) &&
-        t.MFY === "2-sektor" && // Filter by MFY equal to "CHORTOQ"
-        new Date(t.createdAt).toLocaleDateString().includes(filterValue.date) // Check for the entered date
+        t.MFY === "2-sektor" &&
+        new Date(t.createdAt).toLocaleDateString().includes(filterValue.date)
     );
     setFilteredMavzula(filteredArray);
   };
@@ -102,7 +102,6 @@ const Filter = () => {
 
   const [showOrganilgan, setShowOrganilgan] = useState(true); // Step 1
 
-  // ... (existing code)
 
   const handleOrganilganClick = () => {
     setShowOrganilgan(!showOrganilgan);
@@ -276,6 +275,7 @@ const Filter = () => {
                         Qoldirgan dars vaqti
                       </th>
                       <th className="admin_panel_th py-4 px-2 poppins-2"></th>
+                      <th className="admin_panel_th py-4 px-2 poppins-2"></th>
                     </tr>
                   </thead>
                   {usersAddedByDate[date].map((t, index) => (
@@ -302,13 +302,12 @@ const Filter = () => {
                         </td>
                         <td className="">
                           <RemoveBtn id={t._id} />
-                          <button
-                            onClick={() => changeStatus(t._id)}
-                            className={`py-2 px-4 ${t.isChecked
-                              ? "text-green-500 bg-black"
-                              : "text-red-500 bg-sky-950"
-                              }`}
-                          >
+                        </td>
+                        <td>
+                          <button onClick={() => changeStatus(t._id)} className={`py-2 ml-2 px-2 ${t.isChecked
+                            ? "text-white green rounded-md cursor-pointer"
+                            : "text-white bg-red-700 rounded-md cursor-pointer"
+                            }`}>
                             {t.isChecked ? "O'rganilgan" : "O'rganilmagan"}
                           </button>
                         </td>
