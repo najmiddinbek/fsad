@@ -237,7 +237,7 @@ export default function LoginForm() {
       });
       return;
     }
-    if (email === "G`aybullayeva Barchinoy" && password === "barchinoy81") {
+    if (email === "Barchinoy" && password === "barchinoy81") {
       router.replace("/pupilsAdd");
       toast.success(`Xush kelibsiz ${email}`, {
         position: "top-right",
